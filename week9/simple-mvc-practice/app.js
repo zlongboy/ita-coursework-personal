@@ -3,6 +3,8 @@ import path from 'path';
 import { fileURLToPath } from 'url'
 import bodyParser from 'body-parser';
 
+import db from './util/database.js';
+
 const app = express();
 const port = 3000;
 
@@ -12,8 +14,9 @@ export const __dirname = path.dirname(__filename);
 app.set('view engine', 'pug');
 app.set('views', 'views');
 app.use(bodyParser.urlencoded({ extended: true }));
-
 //Load public files here (e.g. CSS - video 75)
+
+db.execute('SELECT * FROM records').then().catch();
 
 import { router as addRoutes } from './routes/add.js';
 import { router as displayRoutes } from './routes/display.js';
