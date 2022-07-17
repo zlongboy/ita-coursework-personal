@@ -1,7 +1,7 @@
 import express from 'express';
 import path from 'path';
 import { fileURLToPath } from 'url'
-//import bodyParser from 'body-parser';
+import bodyParser from 'body-parser';
 
 const app = express();
 const port = 3000;
@@ -11,10 +11,9 @@ export const __dirname = path.dirname(__filename);
 
 app.set('view engine', 'pug');
 app.set('views', 'views');
-//app.use(bodyParser.urlencoded({ extended: true }));
-    //No longer needed as bodyParser ships with express 4
+app.use(bodyParser.urlencoded({ extended: true }));
 
-//Load public files here (e.g. CSS)
+//Load public files here (e.g. CSS - video 75)
 
 import { router as addRoutes } from './routes/add.js';
 import { router as displayRoutes } from './routes/display.js';

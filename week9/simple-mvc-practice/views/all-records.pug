@@ -4,7 +4,7 @@ html(lang="en")
         meta(charset="UTF-8")
         meta(http-equiv="X-UA-Compatible", content="IE=edge")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
-        title All Records
+        title #{pageTitle}
     body
         header
             nav
@@ -16,6 +16,8 @@ html(lang="en")
         main
             h1 All Records
             ul
-                li placeholder record one
-                li placeholder record two    
-                li placeholder record three   
+            if recs.length > 0
+                each record in recs
+                    li #{record.name}
+            else
+                h2 No Products
