@@ -5,7 +5,6 @@ export let records = [];
 
 export const getAddRecords = (req, res) => {
     res.render('add-record', {
-        path: '/add-record',
         pageTitle: 'Add Record'
     });
 };
@@ -17,7 +16,6 @@ export const postAddRecords = (req, res) => {
 
 export const getAllRecords = (req, res) => {
     res.render('all-records', {
-        path: '/',
         pageTitle: 'All Records',
         recs: records
     });
