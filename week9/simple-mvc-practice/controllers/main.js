@@ -1,7 +1,6 @@
 //import model
-import { __dirname, __filename } from '../app.js'
-
-export let records = [];
+import { __dirname, __filename } from '../app.js'; 
+import { Record } from '../models/record.js';
 
 export const getAddRecords = (req, res) => {
     res.render('add-record', {
@@ -10,13 +9,17 @@ export const getAddRecords = (req, res) => {
 };
 
 export const postAddRecords = (req, res) => {
-    records.push({ title: req.body.name });
+    const record = new Record(req.body.name);
+    record.save();
     res.redirect('/');
 };
 
 export const getAllRecords = (req, res) => {
-    res.render('all-records', {
-        pageTitle: 'All Records',
-        recs: records
+    Record.fetchRecords(records => {
+        res.render('all-records', {
+            pageTitle: 'All Records',
+            recs: records
+        });
     });
-};
+}; 
+    
