@@ -1,8 +1,9 @@
-import express from 'express';
+const express = require('express');
 
-import { getAllRecords } from '../controllers/main.js';
+const recordsController = require('../controllers/main');
 
-export const router = express.Router();
+const router = express.Router();
 
-router.get('/', getAllRecords);
+router.get('/', recordsController.getAllRecords);
 
+module.exports = router

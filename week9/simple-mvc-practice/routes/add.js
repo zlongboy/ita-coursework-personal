@@ -1,10 +1,10 @@
-import express from 'express';
+const express = require('express');
 
-import { getAddRecords, postAddRecords } from '../controllers/main.js';
+const recordsController = require('../controllers/main');
 
-export const router = express.Router();
+const router = express.Router();
 
-router.get('/add-record', getAddRecords);
-router.post('/add-record', postAddRecords);
+router.get('/add-record', recordsController.getAddRecords);
+router.post('/add-record', recordsController.postAddRecords);
 
-
+module.exports = router;
