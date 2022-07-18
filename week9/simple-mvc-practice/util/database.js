@@ -5,6 +5,6 @@ const pool = mysql.createPool({
     user: 'root',
     database: 'simple-mvc-practice',
     //password: '';
-});
+})
 
-export default pool.promise();
+pool.promise();
