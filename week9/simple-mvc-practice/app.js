@@ -1,22 +1,18 @@
-import express from 'express';
-import path from 'path';
-import { fileURLToPath } from 'url'
-import bodyParser from 'body-parser';
-
-//TODO: import pool from './util/database.js' 
+const express = require('express');
+const path = require('path');
+const bodyParser = require('body-parser');
 
 const app = express();
 const port = 3000;
-
-export const __filename = fileURLToPath(import.meta.url);
-export const __dirname = path.dirname(__filename);
 
 app.set('view engine', 'pug');
 app.set('views', 'views');
 app.use(bodyParser.urlencoded({ extended: true }));
 //Load public files here (e.g. CSS - video 75)
 
-db.execute('SELECT * FROM records')
+const db = require('./util/database'); 
+
+db.execute('SELECT * FROM records LIMIT 5')
     .then(result => {
         console.log(result);
     })
@@ -24,13 +20,14 @@ db.execute('SELECT * FROM records')
         console.log(err);
     });
 
-import { router as addRoutes } from './routes/add.js';
-import { router as displayRoutes } from './routes/display.js';
-import { get404 as errorController } from './controllers/errors.js';
+const addRoutes = require('./routes/add');
+const displayRoutes = require('./routes/display');
+const errorController = require('./controllers/errors');
 
 app.use(addRoutes);
 app.use(displayRoutes);
-app.use(errorController);
+
+app.use(errorController.get404);
 
 app.listen(port);
 

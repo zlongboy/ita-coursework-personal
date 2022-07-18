@@ -1,16 +1,15 @@
-import fs from 'fs';
-import path from 'path';
-import { __dirname, __filename } from '../app.js';
+const fs = require('fs');
+const path = require('path');
 
 //Can refactor here if desired using a helper function to get path/readfile (video 103)
 
-export class Record {
+module.exports = class Record {
     constructor(name) {
         this.title = name; 
     }
 
     save() {
-        const p = path.join(__dirname, 'data', 'records.json');
+        const p = './data/records.json';
     
         fs.readFile(p, (err, fileContent) => {
             let records = [];
@@ -25,7 +24,7 @@ export class Record {
     }
 
     static fetchRecords(callback) {
-        const p = path.join(__dirname, 'data', 'records.json');
+        const p = './data/records.json';
 
         fs.readFile(p, (err, fileContent) => {
             if (err) {
@@ -34,4 +33,4 @@ export class Record {
             callback(JSON.parse(fileContent));
         })
     }
-}
+};
