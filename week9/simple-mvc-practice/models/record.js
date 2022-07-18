@@ -10,7 +10,7 @@ module.exports = class Record {
     }
 
     save() {
-
+        return db.execute('INSERT INTO records (title) VALUES (?)', [this.title]);
     }
 
     static fetchRecords(callback) {

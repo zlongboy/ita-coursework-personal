@@ -8,8 +8,12 @@ exports.getAddRecords = (req, res) => {
 
 exports.postAddRecords = (req, res) => {
     const record = new Record(req.body.name);
-    record.save();
-    res.redirect('/');
+    record
+        .save()
+        .then(() => {
+            res.redirect('/');
+        })
+        .catch(err => console.log(err))
 };
 
 exports.getAllRecords = (req, res) => {
