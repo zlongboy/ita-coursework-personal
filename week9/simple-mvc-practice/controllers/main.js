@@ -1,4 +1,3 @@
-//import model
 const Record = require('../models/record');
 
 exports.getAddRecords = (req, res) => {
@@ -14,11 +13,13 @@ exports.postAddRecords = (req, res) => {
 };
 
 exports.getAllRecords = (req, res) => {
-    Record.fetchRecords(records => {
-        res.render('all-records', {
-            pageTitle: 'All Records',
-            recs: records
-        });
-    });
+    Record.fetchRecords()
+        .then(([rows]) => {
+            res.render('all-records', {
+                pageTitle: 'All Records',
+                recs: rows
+            });
+        })
+        .catch(err => console.log(err))
 }; 
     
