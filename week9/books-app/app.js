@@ -3,6 +3,7 @@ const bodyParser = require('body-parser');
 
 const db = require('./util/database');
 const errorController = require('./controllers/errors');
+const getBooks = require('./integrations/books')
 
 const app = express();
 const port = 8080;
@@ -14,6 +15,8 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 const addRoutes = require('./routes/add');
 const displayRoutes = require('./routes/display');
+
+getBooks('michael-lewis')
 
 app.use(addRoutes);
 app.use(displayRoutes);

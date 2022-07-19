@@ -1,4 +1,4 @@
-const Record = require('../models/record');
+const Book = require('../models/record');
 
 exports.getAddRecords = (req, res) => {
     res.render('add-record', {
@@ -7,7 +7,7 @@ exports.getAddRecords = (req, res) => {
 };
 
 exports.postAddRecords = (req, res) => {
-    const record = new Record(req.body.name);
+    const record = new Book(req.body.name);
     record
         .save()
         .then(() => {
@@ -16,8 +16,13 @@ exports.postAddRecords = (req, res) => {
         .catch(err => console.log(err))
 };
 
+exports.searchAuthor = (req, res) => {
+    const cleanAuthor = toLowerCase(req.params.name).replaceAll(' ', '-');
+    console.log(cleanAuthor);
+}
+
 exports.getAllRecords = (req, res) => {
-    Record.fetchRecords()
+    Book.fetchRecords()
         .then(([rows]) => {
             res.render('all-records', {
                 pageTitle: 'All Records',

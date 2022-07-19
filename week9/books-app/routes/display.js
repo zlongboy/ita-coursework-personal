@@ -6,4 +6,4 @@ const router = express.Router();
 
 router.get('/', recordsController.getAllRecords);
 
-module.exports = router
+module.exports = router;
