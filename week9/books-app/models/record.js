@@ -13,7 +13,7 @@ module.exports = class Book {
         return db.execute('INSERT INTO records (title) VALUES (?)', [this.title]);
     }
 
-    static fetchRecords(callback) {
+    static fetchRecords() {
         return db.execute('SELECT * FROM records')
     }
 };

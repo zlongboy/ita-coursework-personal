@@ -1,4 +1,5 @@
 const Book = require('../models/record');
+const clean = require('../util/clean');
 
 exports.getAddRecords = (req, res) => {
     res.render('add-record', {
@@ -17,8 +18,13 @@ exports.postAddRecords = (req, res) => {
 };
 
 exports.searchAuthor = (req, res) => {
-    const cleanAuthor = toLowerCase(req.params.name).replaceAll(' ', '-');
+    //TODO: req and/or its properties is not being resolved before creating variable -- videos?
+    console.log(req.params.name);
+    const cleanAuthor = clean.author(req.params.name)
     console.log(cleanAuthor);
+    // .then(() => {
+    //     res.redirect('/add-record');
+    // })
 }
 
 exports.getAllRecords = (req, res) => {

@@ -1,5 +1,6 @@
 const axios = require('axios');
 
+const googleBooks = require('../config');
 const baseURL = 'https://www.googleapis.com/books/v1';
 const volumes = '/volumes'  
 
@@ -8,7 +9,7 @@ module.exports = async function getBooks(author) {
         const response = await axios(baseURL + volumes, {
             method: 'get',
             params: {
-                key: 'AIzaSyDe0FuNsS4t3jFkroYofXH1_67OsVQ7yEQ',
+                key: googleBooks.API_KEY,
                 q: `inauthor:${author}`, 
                 projection: 'lite',
                 orderBy: 'newest'

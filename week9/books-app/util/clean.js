@@ -1,12 +1,11 @@
 //two functions clean.author(), clean.volumes()
 
 exports.author = (input) => {
-    //lowercase
-    //delimiter='-'
+    return input.toLowerCase().replaceAll(' ', '-');
 };
 
 exports.volumes = (volumes) => {
     volumes.forEach(e => {
-        
+        //TODO
     });
 }
