@@ -17,15 +17,17 @@ exports.postAddRecords = (req, res) => {
         .catch(err => console.log(err))
 };
 
-exports.searchAuthor = (req, res) => {
-    //TODO: req and/or its properties is not being resolved before creating variable -- videos?
+exports.getSearchAuthor = (req, res) => {
+    res.render('add-book', {
+        pageTitle: 'Add Book'
+    });
+};
+
+exports.postSearchAuthor = (req, res, next) => {
     console.log(req.params.name);
-    const cleanAuthor = clean.author(req.params.name)
-    console.log(cleanAuthor);
-    // .then(() => {
-    //     res.redirect('/add-record');
-    // })
-}
+    next();
+    console.log(req.params.name);
+};
 
 exports.getAllRecords = (req, res) => {
     Book.fetchRecords()
