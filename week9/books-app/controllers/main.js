@@ -1,6 +1,10 @@
 const Book = require('../models/record');
 const clean = require('../util/clean');
 
+const bodyParser = require('body-parser');
+
+app.use(bodyParser.urlencoded({ extended: true }));
+
 exports.getAddRecords = (req, res) => {
     res.render('add-record', {
         pageTitle: 'Add Record'
@@ -24,9 +28,9 @@ exports.getSearchAuthor = (req, res) => {
 };
 
 exports.postSearchAuthor = (req, res, next) => {
-    console.log(req.params.name);
+    console.log(req.body.name);
     next();
-    console.log(req.params.name);
+    console.log(req.body.name);
 };
 
 exports.getAllRecords = (req, res) => {
