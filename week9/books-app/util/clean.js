@@ -1,4 +1,4 @@
-//two functions clean.author(), clean.volumes()
+const Book = require('../models/book');
 
 exports.author = (input) => {
     return input.toLowerCase().replaceAll(' ', '-');
@@ -7,6 +7,8 @@ exports.author = (input) => {
 exports.volumes = (volumes) => {
     const results = [];
     volumes.forEach(e => {
-        //TODO loop through array and extract volumes. Call this function in the model to assign.
+        const volume = new Book(e.id, e.volumeInfo.title, e.volumeInfo.authors[0], e.volumeInfo.publisher)
+        results.push(this);
     });
+    console.log(results);
 };

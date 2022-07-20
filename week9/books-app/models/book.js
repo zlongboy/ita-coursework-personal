@@ -1,4 +1,4 @@
-const db = require('../util/books');
+const db = require('../util/books-schema');
 
 //Can refactor here if desired using a helper function to get path/readfile (video 103)
 

@@ -1,7 +1,7 @@
 {
-  "name": "simple-mvc-practice",
+  "name": "books-app",
   "version": "1.0.0",
-  "description": "simple mvc practice with read/write file storage",
+  "description": "Building books app on simple-mvc-practice base",
   "main": "app.js",
   "type": "commonjs",
   "scripts": {

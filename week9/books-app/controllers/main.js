@@ -1,6 +1,6 @@
 const Record = require('../models/record');
 const clean = require('../util/clean');
-const getBooks = require('../integrations/books')
+const getBooks = require('../integrations/books');
 
 // RECORDS //
 exports.getAddRecords = (req, res) => {
@@ -39,7 +39,10 @@ exports.getAuthor = (req, res) => {
 };
 
 exports.postAuthor = (req, res, next) => {
-    getBooks(clean.author(req.body.name));
+    (async function () {
+        clean.volumes(
+            await getBooks(clean.author(req.body.name)));
+    })();
     res.redirect('/add-book');
 };
 
