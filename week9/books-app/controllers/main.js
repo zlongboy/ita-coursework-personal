@@ -1,7 +1,8 @@
-const Book = require('../models/record');
+const Record = require('../models/record');
 const clean = require('../util/clean');
 const getBooks = require('../integrations/books')
 
+// RECORDS //
 exports.getAddRecords = (req, res) => {
     res.render('add-record', {
         pageTitle: 'Add Record'
@@ -9,7 +10,7 @@ exports.getAddRecords = (req, res) => {
 };
 
 exports.postAddRecords = (req, res) => {
-    const record = new Book(req.body.name);
+    const record = new Record(req.body.name);
     record
         .save()
         .then(() => {
@@ -18,6 +19,19 @@ exports.postAddRecords = (req, res) => {
         .catch(err => console.log(err))
 };
 
+exports.getAllRecords = (req, res) => {
+    Record.fetchRecords()
+        .then(([rows]) => {
+            res.render('all-records', {
+                pageTitle: 'All Records',
+                recs: rows
+            });
+        })
+        .catch(err => console.log(err))
+}; 
+
+
+// BOOKS //
 exports.getAuthor = (req, res) => {
     res.render('add-book', {
         pageTitle: 'Add Book'
@@ -29,14 +43,3 @@ exports.postAuthor = (req, res, next) => {
     res.redirect('/add-book');
 };
 
-exports.getAllRecords = (req, res) => {
-    Book.fetchRecords()
-        .then(([rows]) => {
-            res.render('all-records', {
-                pageTitle: 'All Records',
-                recs: rows
-            });
-        })
-        .catch(err => console.log(err))
-}; 
-    

@@ -1,9 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
-const db = require('./util/database');
 const errorController = require('./controllers/errors');
-const getBooks = require('./integrations/books')
 
 const app = express();
 const port = 8080;

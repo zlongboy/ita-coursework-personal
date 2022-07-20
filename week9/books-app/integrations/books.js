@@ -19,7 +19,7 @@ module.exports = async function getBooks(author) {
 
         console.log('Running...');
         console.log(response.status);
-        console.log(response.data.items[2].volumeInfo.authors);
+        console.log(response.data.items);
     } catch (err) {
         console.error(err);
     }

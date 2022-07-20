@@ -1,10 +1,8 @@
-const fs = require('fs');
-
-const db = require('../util/database');
+const db = require('../util/records-schema');
 
 //Can refactor here if desired using a helper function to get path/readfile (video 103)
 
-module.exports = class Book {
+module.exports = class Record {
     constructor(name) {
         this.title = name; 
     }
