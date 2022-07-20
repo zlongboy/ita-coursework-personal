@@ -8,6 +8,10 @@ const getBooks = require('./integrations/books')
 const app = express();
 const port = 8080;
 
+// FOR TESTING //
+//console.clear();
+// END //
+
 app.set('view engine', 'pug');
 app.set('views', 'views');
 app.use(bodyParser.urlencoded({ extended: true }));
@@ -15,8 +19,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 const addRoutes = require('./routes/add');
 const displayRoutes = require('./routes/display');
-
-getBooks('michael-lewis')
 
 app.use(addRoutes);
 app.use(displayRoutes);

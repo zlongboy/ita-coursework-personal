@@ -1,5 +1,6 @@
 const Book = require('../models/record');
 const clean = require('../util/clean');
+const getBooks = require('../integrations/books')
 
 exports.getAddRecords = (req, res) => {
     res.render('add-record', {
@@ -17,15 +18,16 @@ exports.postAddRecords = (req, res) => {
         .catch(err => console.log(err))
 };
 
-exports.searchAuthor = (req, res) => {
-    //TODO: req and/or its properties is not being resolved before creating variable -- videos?
-    console.log(req.params.name);
-    const cleanAuthor = clean.author(req.params.name)
-    console.log(cleanAuthor);
-    // .then(() => {
-    //     res.redirect('/add-record');
-    // })
-}
+exports.getAuthor = (req, res) => {
+    res.render('add-book', {
+        pageTitle: 'Add Book'
+    });
+};
+
+exports.postAuthor = (req, res, next) => {
+    getBooks(clean.author(req.body.name));
+    res.redirect('/add-book');
+};
 
 exports.getAllRecords = (req, res) => {
     Book.fetchRecords()

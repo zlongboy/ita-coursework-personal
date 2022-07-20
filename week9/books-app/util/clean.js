@@ -6,6 +6,6 @@ exports.author = (input) => {
 
 exports.volumes = (volumes) => {
     volumes.forEach(e => {
-        //TODO
+        //TODO loop through array and extract volumes. Call this function in the model to assign.
     });
-}
+};

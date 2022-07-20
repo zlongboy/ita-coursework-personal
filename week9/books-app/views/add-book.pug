@@ -14,12 +14,9 @@ html(lang="en")
                     li 
                         a(href='add-record') add-record
                     li
-                        a(href='add-book') add-book     
+                        a(href='add-book') add-book   
         main
-            h1 All Records
-            ul
-            if recs.length > 0
-                each record in recs
-                    li #{record.title}
-            else
-                h2 No Products
+            h1 Add Book
+            form(action='/add-book', method='POST')
+                input(type='text' name='name')
+                button(type='submit') Add 
