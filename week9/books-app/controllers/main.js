@@ -1,9 +1,6 @@
 const Book = require('../models/record');
 const clean = require('../util/clean');
-
-const bodyParser = require('body-parser');
-
-app.use(bodyParser.urlencoded({ extended: true }));
+const getBooks = require('../integrations/books')
 
 exports.getAddRecords = (req, res) => {
     res.render('add-record', {
@@ -21,16 +18,15 @@ exports.postAddRecords = (req, res) => {
         .catch(err => console.log(err))
 };
 
-exports.getSearchAuthor = (req, res) => {
+exports.getAuthor = (req, res) => {
     res.render('add-book', {
         pageTitle: 'Add Book'
     });
 };
 
-exports.postSearchAuthor = (req, res, next) => {
-    console.log(req.body.name);
-    next();
-    console.log(req.body.name);
+exports.postAuthor = (req, res, next) => {
+    getBooks(clean.author(req.body.name));
+    res.redirect('/add-book');
 };
 
 exports.getAllRecords = (req, res) => {

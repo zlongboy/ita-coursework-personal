@@ -17,7 +17,9 @@ module.exports = async function getBooks(author) {
             timeout: 15000
         });
 
+        console.log('Running...');
         console.log(response.status);
+        console.log(response.data.items[2].volumeInfo.authors);
     } catch (err) {
         console.error(err);
     }
