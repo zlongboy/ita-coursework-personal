@@ -11,14 +11,11 @@ module.exports = async function getBooks(author) {
             params: {
                 key: googleBooks.API_KEY,
                 q: `inauthor:${author}`, 
-                projection: 'lite',
-                orderBy: 'newest'
             },
             timeout: 15000
         });
-        
+        console.log(response.status)
         //console.log('From function...');
-        // console.log(response.status);
         //console.log(response.data.items[0].id);
         return response.data.items;
     } catch (err) {
