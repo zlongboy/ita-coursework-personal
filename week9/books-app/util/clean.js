@@ -1,4 +1,3 @@
-const e = require('express');
 const Book = require('../models/book');
 
 exports.author = (input) => {
@@ -15,5 +14,6 @@ exports.volumes = (volumes) => {
             e.volumeInfo.publisher ? e.volumeInfo.publisher : null, 
             e.accessInfo.country));
     });
-    console.log(results);
+    let sql = results.map(el => `(${el.bookId}, ${el.title}, ${el.author}, ${el.publisher}, ${el.country})`)
+    Book.save(sql);
 };

@@ -1,8 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 
-const errorController = require('./controllers/errors');
-
 const app = express();
 const port = 8080;
 
@@ -26,10 +24,10 @@ app.use(bodyParser.urlencoded({ extended: true }));
 
 const addRoutes = require('./routes/add');
 const displayRoutes = require('./routes/display');
+const errorController = require('./controllers/errors');
 
 app.use(addRoutes);
 app.use(displayRoutes);
-
 app.use(errorController.get404);
 
 app.listen(port);

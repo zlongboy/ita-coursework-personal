@@ -11,15 +11,13 @@ html(lang="en")
                 ul
                     li
                         a(href='/') all-records
-                    li 
-                        a(href='add-record') add-record
                     li
                         a(href='add-book') add-book     
         main
-            h1 All Records
+            h1 All Books
             ul
-            if recs.length > 0
+            if recs
                 each record in recs
                     li #{record.title}
             else
-                h2 No Products
+                h3 No Books Available

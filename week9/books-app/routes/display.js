@@ -4,6 +4,6 @@ const recordsController = require('../controllers/main');
 
 const router = express.Router();
 
-router.get('/', recordsController.getAllRecords);
+router.get('/', recordsController.getAllBooks);
 
 module.exports = router;

@@ -2,11 +2,11 @@ const axios = require('axios');
 
 const googleBooks = require('../config');
 const baseURL = 'https://www.googleapis.com/books/v1';
-const volumes = '/volumes'  
+const endpoint = '/volumes'  
 
 module.exports = async function getBooks(author) {
     try {
-        const response = await axios(baseURL + volumes, {
+        const response = await axios(baseURL + endpoint, {
             method: 'get',
             params: {
                 key: googleBooks.API_KEY,
@@ -14,9 +14,7 @@ module.exports = async function getBooks(author) {
             },
             timeout: 15000
         });
-        console.log(response.status)
-        //console.log('From function...');
-        //console.log(response.data.items[0].id);
+        //console.log(response.status)
         return response.data.items;
     } catch (err) {
         console.error(err);
