@@ -1,4 +1,4 @@
-const db = require('../util/books-schema');
+const db = require('../util/books-config');
 
 module.exports = class Book {
     constructor(BID, t, a, p, c, y, usd) {
