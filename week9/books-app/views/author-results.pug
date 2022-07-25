@@ -14,11 +14,6 @@ html(lang="en")
                     li
                         a(href='add-author') add-author   
         main
-            h1 Add Author
-            form(action='/add-book', method='POST')
-                input(type='text' name='name')
-                button(type='submit') Add 
-            
             h1 Books Added
             ul
             if recs

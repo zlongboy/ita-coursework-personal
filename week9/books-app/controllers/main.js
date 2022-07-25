@@ -9,15 +9,12 @@ exports.getSearchBooks = (req, res) => {
 }
 
 exports.postSearchBooks = (req, res) => {
-    const result = (async function () {
-        return data.fetchBook(req.body.id);
-    })();
-    console.log(result);
-    res.render('book-results', {
-        pageTitle: 'Book Results',
-        //TODO: result not resolved yet
-        recs: result
-    })
+    (async function () {
+            res.render('book-results', {
+            pageTitle: 'Book Results',
+            recs: await data.fetchBook(req.body.id)
+        })
+    })();   
 }
 
 exports.getAuthor = (req, res) => {
@@ -27,13 +24,11 @@ exports.getAuthor = (req, res) => {
 };
 
 exports.postAuthor = (req, res, next) => {
-    const added = (async function () {
-        return clean.volumes(await getBooks(clean.author(req.body.name)));
+    (async function () {
+        res.render('author-results', {
+            pageTitle: 'All Results',
+            recs: clean.volumes(await getBooks(clean.author(req.body.name)))
+            //TODO: How can I speed up this render?
+        });
     })();
-
-    res.render('/author-results', {
-        pageTitle: 'All Results',
-        //TODO: added not resolved yet
-        recs: added
-    });
 };

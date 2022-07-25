@@ -6,5 +6,6 @@ exports.saveBooks = (valuesSQL) => {
 
 exports.fetchBook = async (bookId) => {
    const [rows, fields] = await db.execute(`SELECT * FROM books.volumes WHERE Id = '${bookId}'`);
+   //console.log(rows);
    return rows;
 }

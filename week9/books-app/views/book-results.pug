@@ -17,12 +17,12 @@ html(lang="en")
             h1 Search results
             ul
             if recs
-                li #{recs[0].title} | #{recs[0].author} - #{recs[0].year}
+                li #{recs[0].Title} | #{recs[0].Author} - #{recs[0].Year}
                 ul
-                    li #{recs[0].publisher}
-                    li #{recs[0].country}
-                    li $#{recs[0].price}
-                    li #{recs[0].id}
+                    li #{recs[0].Publisher}
+                    li #{recs[0].Country}
+                    li $#{recs[0].Price}
+                    li #{recs[0].Id}
             else
                 h3 No Books Found
                 a(href='/') Try again

@@ -22,4 +22,6 @@ exports.volumes = (volumes) => {
     let sql = results.map(el => `("${el.bookId}", "${el.title}", "${el.author}", "${el.publisher}", "${el.country}", "${el.year}", ${el.price})`);
     
     data.saveBooks(sql);
+    
+    return results
 };
