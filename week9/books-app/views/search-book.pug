@@ -10,13 +10,11 @@ html(lang="en")
             nav
                 ul
                     li
-                        a(href='/') all-records
-                    li 
-                        a(href='add-record') add-record
+                        a(href='/') search-books
                     li
-                        a(href='add-book') add-book   
+                        a(href='add-author') add-author
         main
-            h1 Add Book
-            form(action='/add-book', method='POST')
-                input(type='text' name='name')
-                button(type='submit') Add 
+            h1 Search Books by ID
+            form(action='/', method='POST')
+                input(type='text' name='id')
+                button(type='submit') Search 

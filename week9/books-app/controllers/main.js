@@ -1,42 +1,34 @@
-const Book = require('../models/record');
 const clean = require('../util/clean');
-const getBooks = require('../integrations/books')
+const data = require('../util/data')
+const getBooks = require('../integrations/books');
 
-exports.getAddRecords = (req, res) => {
-    res.render('add-record', {
-        pageTitle: 'Add Record'
-    });
-};
+exports.getSearchBooks = (req, res) => {
+    res.render('search-book', {
+        pageTitle: 'Search Books',
+    })
+}
 
-exports.postAddRecords = (req, res) => {
-    const record = new Book(req.body.name);
-    record
-        .save()
-        .then(() => {
-            res.redirect('/');
+exports.postSearchBooks = (req, res) => {
+    (async function () {
+            res.render('book-results', {
+            pageTitle: 'Book Results',
+            recs: await data.fetchBook(req.body.id)
         })
-        .catch(err => console.log(err))
-};
+    })();   
+}
 
 exports.getAuthor = (req, res) => {
-    res.render('add-book', {
-        pageTitle: 'Add Book'
+    res.render('add-author', {
+        pageTitle: 'Add Author'
     });
 };
 
 exports.postAuthor = (req, res, next) => {
-    getBooks(clean.author(req.body.name));
-    res.redirect('/add-book');
+    (async function () {
+        res.render('author-results', {
+            pageTitle: 'All Results',
+            recs: clean.volumes(await getBooks(clean.author(req.body.name)))
+            //TODO: How can I speed up this render?
+        });
+    })();
 };
-
-exports.getAllRecords = (req, res) => {
-    Book.fetchRecords()
-        .then(([rows]) => {
-            res.render('all-records', {
-                pageTitle: 'All Records',
-                recs: rows
-            });
-        })
-        .catch(err => console.log(err))
-}; 
-    

@@ -4,10 +4,7 @@ const recordsController = require('../controllers/main');
 
 const router = express.Router();
 
-router.get('/add-record', recordsController.getAddRecords);
-router.post('/add-record', recordsController.postAddRecords);
-
-router.get('/add-book', recordsController.getAuthor);
-router.post('/add-book', recordsController.postAuthor);
+router.get('/add-author', recordsController.getAuthor);
+router.post('/add-author', recordsController.postAuthor);
 
 module.exports = router;
