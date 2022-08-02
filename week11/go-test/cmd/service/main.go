@@ -7,10 +7,11 @@ import (
 	// "strconv" // Itao() method converts numeric values to strings, Atoi(), ParseFloat() converts strings to numerics
 	// "time"
 	// "math/rand"
+	"math"
 )
 
 func main() {
-
+	fmt.Println("Answer: ", Sqrt(64))
 	varNotes()
 }
 
@@ -43,7 +44,7 @@ func varNotes() {
 		Combining math with assignment (e.g. +=)
 
 		Boolean logic: || (or), && (and), ! (not)
-		GOOGLE: Switch statements in Go? Best practices for if else
+		Switch statements without conditions => switch true
 		No key found when searching a map will return 0
 
 		Seed values for random integer generation (rand.Intn() method) -- use time as a seed otherwise method will generate same integer each run
@@ -61,21 +62,45 @@ func varNotes() {
 			QUESTION: why would you use dereferencing?
 				- Changing variables outside of scope? Changing pointer (value at address)
 
-		CURRENT: PAGE 153 { Deleting from maps }
+		Loops - for loop only
+			init (e.g. declare vars needed for loop); condition (do until); post (what to do after iteration, e.g. i++) { }
+			break - exits, goes to end of loop
+			continue - goes back to top of loop
+
 	*/
-	i := int(20001)
 	// Using short declaration wrap value in type declaration (if no type specified Go will infer)
-	s := []string{"royal", "air", "maroc"}
+	i := int(20001)
 	// Slices - more flexible arrays (arrays are of fixed length) but requiring more memory
+	s := []string{"royal", "air", "maroc"}
 
-	m := map[string]int{"model": 747, "captain": 1, "delta": 8}
 	// Map -  unordered. Access via keys, e.g. m["model"]. (GOOGLE: Println formats in alphabetical order?)
+	m := map[string]int{"model": 747, "captain": 1, "delta": 8}
 
+	// Appending values to a slice
 	s = append(s, "Casablanca")
 
+	// Converting int types and printing var type
 	j := int64(i)
 	fmt.Printf("%T\n", j)
-	// Converting int types
 
 	fmt.Println(i, s, m, len(s))
+}
+
+// Sqrt function (Newton's method) from Tour of Go exercises
+func Sqrt(x float64) float64 {
+	z := 1.00
+	c := 0
+	for {
+		c++
+		p := z
+		fmt.Println(c, "-", "p: ", p)
+		z -= (z*z - x) / (2 * z)
+		fmt.Println(c, "-", "z: ", z)
+		if math.Abs(p-z) > 0 {
+			continue
+		} else {
+			break
+		}
+	}
+	return z
 }
