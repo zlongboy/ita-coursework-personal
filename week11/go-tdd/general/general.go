@@ -1,9 +1,5 @@
 package general
 
-func main() {
-	SumAll([]int{1, 2}, []int{3, 6})
-}
-
 func SumAll(toSum ...[]int) []int { // variadic arguments
 	var finalSum []int
 
