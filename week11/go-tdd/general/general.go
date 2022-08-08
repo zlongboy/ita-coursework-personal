@@ -4,9 +4,13 @@ func main() {
 	SumAll([]int{1, 2}, []int{3, 6})
 }
 
-func SumAll(sOne, sTwo []int) []int {
+func SumAll(toSum ...[]int) []int { // variadic arguments
 	var finalSum []int
-	finalSum = append(finalSum, Sum(sOne), Sum(sTwo))
+
+	for _, nums := range toSum {
+		finalSum = append(finalSum, Sum(nums))
+	}
+
 	return finalSum
 }
 
