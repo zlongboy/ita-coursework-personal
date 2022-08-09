@@ -1,5 +1,8 @@
 package main
 
+// cli start server with nodemon:
+// 	nodemon --exec 'go' run cmd/main.go
+
 import (
 	"encoding/json"
 	"fmt"
