@@ -1,7 +1,7 @@
 package main
 
 // cli start server with nodemon:
-// 	nodemon --exec 'go' run cmd/main.go
+// 	    nodemon --exec 'go' run cmd/main.go
 
 import (
 	"encoding/json"
@@ -22,7 +22,6 @@ var list []Book
 
 func deleteBook(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	// fmt.Println("Function Called: deleteBook")
 
 	params := mux.Vars(r)
 
@@ -52,7 +51,6 @@ func addBook(w http.ResponseWriter, r *http.Request) {
 
 func getList(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	// fmt.Println("Function Called: getList")
 
 	json.NewEncoder(w).Encode(list)
 }

@@ -1,41 +1,57 @@
-package main
+package database
 
 import (
 	"database/sql"
 	"fmt"
 
+	// "os"
+
 	_ "github.com/go-sql-driver/mysql"
+	"github.com/joho/godotenv"
 )
 
-type Author struct {
-	ID   string `json:"id"`
-	Name string `json:"name"`
+// TODO: Split out to util package (repeated code in client package)
+func getEnvMap() map[string]string {
+
+	envMap, err := godotenv.Read(".env")
+
+	if err != nil {
+		fmt.Println("Error reading .env to map")
+	}
+	return envMap
+}
+
+type Publisher struct {
+	ID            string `json:"id"`
+	PublisherName string `json:"publisher_name"`
 }
 
 func main() {
-	fmt.Println("Practice")
+	dbName := "books_v2"
+	dbUser := getEnvMap()["BOOKS_DB_USER"]
+	dbPass := getEnvMap()["BOOKS_DB_SECRET"]
+	hostPort := "127.0.0.1:3306"
 
-	db, err := sql.Open("mysql", "root:password@tcp(127.0.0.1:3000)/dbname") // user:password
-
+	db, err := sql.Open("mysql", fmt.Sprintf("%v:%v@tcp(%v)/%v", dbUser, dbPass, hostPort, dbName))
 	if err != nil {
 		panic(err.Error())
 	}
 
 	defer db.Close()
 
-	results, err := db.Query("SELECT * FROM authors")
+	results, err := db.Query("SELECT * FROM publishers")
 	if err != nil {
 		panic(err.Error())
 	}
 
 	for results.Next() {
-		var author Author
+		var publisher Publisher
 
-		err = results.Scan(author.Name) // &author.Name
+		err = results.Scan(&publisher.PublisherName, &publisher.ID) // Tells scan method where to store the data
 		if err != nil {
 			panic(err.Error())
 		}
 
-		fmt.Println(author.Name)
+		fmt.Println(publisher.PublisherName, publisher.ID)
 	}
 }
