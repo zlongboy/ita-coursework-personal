@@ -1,4 +1,4 @@
-package client
+package main
 
 import (
 	// "encoding/json"
@@ -93,7 +93,7 @@ func getBooks(r BooksReq) {
 	}
 
 	fmt.Println(resp.Status)
-	fmt.Println(string(resBody))
+	fmt.Println(len(string(resBody)))
 
 	// return json.NewDecoder(resp.Body).Decode(&book)
 }
@@ -104,10 +104,9 @@ func main() {
 	var br BooksReq
 	br.baseURL = "https://www.googleapis.com/books/v1"
 	br.Path = "/volumes"
-	br.APIKey = getEnvMap()["GOOGLE_API_KEY"]
 	br.SearchTerm = "emily-st-john-mandel" // TODO: write function to get value from a param
 	br.Params = []string{"projection", "q", "key"}
-	br.ParamVals = []string{"lite", br.SearchTerm, br.APIKey}
+	br.ParamVals = []string{"lite", br.SearchTerm, getEnvMap()["GOOGLE_API_KEY"]}
 
 	getBooks(br)
 }
