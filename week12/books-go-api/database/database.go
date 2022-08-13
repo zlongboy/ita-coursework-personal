@@ -3,27 +3,15 @@ package database
 import (
 	"database/sql"
 	"fmt"
+	"os"
 
 	_ "github.com/go-sql-driver/mysql"
-	"github.com/joho/godotenv"
-	// "github.com/zlongboy/ita-coursework-personal/week12/books-api/util"
 )
-
-// TODO: Split out to util package (repeated code in client package)
-func getEnvMap() map[string]string {
-
-	envMap, err := godotenv.Read(".env")
-
-	if err != nil {
-		fmt.Println("Error reading .env to map")
-	}
-	return envMap
-}
 
 func main() {
 	dbName := "books_v2"
-	dbUser := getEnvMap()["BOOKS_DB_USER"]
-	dbPass := getEnvMap()["BOOKS_DB_SECRET"]
+	dbUser := os.Getenv("BOOKS_DB_USER")
+	dbPass := os.Getenv("BOOKS_DB_SECRET")
 	hostPort := "127.0.0.1:3306"
 
 	db, err := sql.Open("mysql", fmt.Sprintf("%v:%v@tcp(%v)/%v", dbUser, dbPass, hostPort, dbName))

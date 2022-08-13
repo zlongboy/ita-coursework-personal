@@ -6,21 +6,9 @@ import (
 	"io/ioutil"
 	"net/http"
 	"net/url"
+	"os"
 	"time"
-
-	"github.com/joho/godotenv"
 )
-
-// TODO: Split out to util package (repeated code in client package)
-func getEnvMap() map[string]string {
-
-	envMap, err := godotenv.Read(".env")
-
-	if err != nil {
-		fmt.Println("Error reading .env to map")
-	}
-	return envMap
-}
 
 var client *http.Client
 
@@ -74,7 +62,7 @@ func main() {
 	br.Path = "/volumes"
 	br.SearchTerm = "emily-st-john-mandel" // TODO: write function to get value from a param
 	br.Params = []string{"projection", "q", "key"}
-	br.ParamVals = []string{"lite", br.SearchTerm, getEnvMap()["GOOGLE_API_KEY"]}
+	br.ParamVals = []string{"lite", br.SearchTerm, os.Getenv("GOOGLE_API_KEY")}
 
 	getBooks(br)
 }
