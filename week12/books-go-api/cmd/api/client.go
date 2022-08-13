@@ -1,4 +1,4 @@
-package googlebooks
+package main
 
 import (
 	// "encoding/json"
@@ -54,7 +54,7 @@ func getBooks(r BooksReq) {
 	// return json.NewDecoder(resp.Body).Decode(&book)
 }
 
-func main() {
+func makeRequest() {
 	client = &http.Client{Timeout: 10 * time.Second}
 
 	var br BooksReq

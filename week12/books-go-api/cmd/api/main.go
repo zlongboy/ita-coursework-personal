@@ -28,6 +28,7 @@ func router() http.Handler {
 
 	r.Get("/health", Health)
 	r.Post("/admin/add", AddAuthor)
+	r.Get("/", Test)
 
 	return r
 }

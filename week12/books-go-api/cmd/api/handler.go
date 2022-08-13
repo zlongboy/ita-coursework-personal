@@ -11,3 +11,7 @@ func Health(w http.ResponseWriter, r *http.Request) {
 func AddAuthor(w http.ResponseWriter, r *http.Request) {
 
 }
+
+func Test(w http.ResponseWriter, r *http.Request) {
+	OpenDB()
+}
