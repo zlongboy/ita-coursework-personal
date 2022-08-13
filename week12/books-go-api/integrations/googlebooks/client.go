@@ -1,4 +1,4 @@
-package main
+package googlebooks
 
 import (
 	// "encoding/json"
@@ -11,7 +11,7 @@ import (
 	"github.com/joho/godotenv"
 )
 
-// TODO: Remove duplicate getEnvMap function and import util
+// TODO: Split out to util package (repeated code in client package)
 func getEnvMap() map[string]string {
 
 	envMap, err := godotenv.Read(".env")
@@ -23,38 +23,6 @@ func getEnvMap() map[string]string {
 }
 
 var client *http.Client
-
-// Request struct
-type BooksReq struct {
-	baseURL    string
-	Path       string
-	APIKey     string
-	SearchTerm string
-	Params     []string
-	ParamVals  []string
-}
-
-// Response structs
-type Book struct {
-	ID          string  `json:"id"`
-	Title       string  `json:"title"`
-	Subtitle    string  `json:"subtitle"`
-	Desc        string  `json:"desc"`
-	PublishDate string  `json:"publish_date"`
-	Country     string  `json:"country"`
-	Price       float32 `json:"price"`
-	ImageURL    string  `json:"image_url"`
-	PurchaseURL string  `json:"purchase_url"`
-	PDF         bool    `json:"pdf"`
-}
-
-type Author struct {
-	Name string `json:"name"`
-}
-
-type Publisher struct {
-	PublisherName string `json:"publisher_name"`
-}
 
 func getBooks(r BooksReq) {
 

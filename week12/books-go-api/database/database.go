@@ -1,13 +1,12 @@
-package main
+package database
 
 import (
 	"database/sql"
 	"fmt"
 
-	// "os"
-
 	_ "github.com/go-sql-driver/mysql"
 	"github.com/joho/godotenv"
+	// "github.com/zlongboy/ita-coursework-personal/week12/books-api/util"
 )
 
 // TODO: Split out to util package (repeated code in client package)
@@ -19,11 +18,6 @@ func getEnvMap() map[string]string {
 		fmt.Println("Error reading .env to map")
 	}
 	return envMap
-}
-
-type Publisher struct {
-	ID            string `json:"id"`
-	PublisherName string `json:"publisher_name"`
 }
 
 func main() {
