@@ -6,13 +6,12 @@ type Publisher struct {
 }
 
 // Request struct
-type BooksReq struct {
-	baseURL    string
-	Path       string
-	APIKey     string
-	SearchTerm string
-	Params     []string
-	ParamVals  []string
+type Client struct {
+	baseURL   string
+	Path      string
+	APIKey    string
+	Params    []string
+	ParamVals []string
 }
 
 // Response structs

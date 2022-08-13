@@ -12,19 +12,19 @@ import (
 
 var client *http.Client
 
-func getBooks(r BooksReq) {
+func getBooks(c Client) {
 
 	// CONSTRUCT URI
-	URI, err := url.Parse(r.baseURL)
+	URI, err := url.Parse(c.baseURL)
 	if err != nil {
 		fmt.Printf("Error parsing client url: %s \n", err.Error())
 	}
 
-	URI.Path += r.Path
+	URI.Path += c.Path
 
 	params := url.Values{}
-	for i := 0; i < len(r.Params); i++ {
-		params.Add(r.Params[i], r.ParamVals[i])
+	for i := 0; i < len(c.Params); i++ {
+		params.Add(c.Params[i], c.ParamVals[i])
 	}
 	URI.RawQuery = params.Encode()
 	// fmt.Printf("Print constructed URI: %s \n", URI)
@@ -33,9 +33,7 @@ func getBooks(r BooksReq) {
 	req, err := http.NewRequest("GET", URI.String(), nil)
 	req.Header.Add("Content-Type", "application/json")
 
-	// SEND REQUEST - HANDLE RESPONSE
-	// var book Book
-
+	// SEND REQUEST
 	resp, err := client.Do(req)
 	if err != nil {
 		fmt.Printf("Error making request: %s \n", err.Error())
@@ -43,6 +41,7 @@ func getBooks(r BooksReq) {
 
 	defer resp.Body.Close()
 
+	// PARSE RESPONSE
 	resBody, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		fmt.Printf("Could not read response body: %s \n", err.Error())
@@ -52,17 +51,18 @@ func getBooks(r BooksReq) {
 	fmt.Println(len(string(resBody)))
 
 	// return json.NewDecoder(resp.Body).Decode(&book)
+
+	// TODO: PARSE RESPONSE
 }
 
-func makeRequest() {
+func booksClient(searchTerm string) Client {
 	client = &http.Client{Timeout: 10 * time.Second}
 
-	var br BooksReq
-	br.baseURL = "https://www.googleapis.com/books/v1"
-	br.Path = "/volumes"
-	br.SearchTerm = "emily-st-john-mandel" // TODO: write function to get value from a param
-	br.Params = []string{"projection", "q", "key"}
-	br.ParamVals = []string{"lite", br.SearchTerm, os.Getenv("GOOGLE_API_KEY")}
+	var bc Client
+	bc.baseURL = "https://www.googleapis.com/books/v1"
+	bc.Path = "/volumes"
+	bc.Params = []string{"projection", "q", "key"}
+	bc.ParamVals = []string{"lite", searchTerm, os.Getenv("GOOGLE_API_KEY")}
 
-	getBooks(br)
+	return bc
 }

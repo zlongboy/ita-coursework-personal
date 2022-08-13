@@ -1,4 +1,4 @@
-package database
+package main
 
 import (
 	"database/sql"
@@ -21,6 +21,13 @@ func OpenDB() {
 
 	defer db.Close()
 
+	// TODO:
+	// Write update books query
+	// Write update publishers query
+	// Write update authors query
+	// Write fetchAll (for authorId) query
+
+	// *** TESTING DB CONNECTION - TO DELETE**
 	results, err := db.Query("SELECT * FROM publishers")
 	if err != nil {
 		panic(err.Error())
