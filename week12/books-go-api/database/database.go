@@ -8,11 +8,11 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-func main() {
-	dbName := "books_v2"
+func OpenDB() {
 	dbUser := os.Getenv("BOOKS_DB_USER")
 	dbPass := os.Getenv("BOOKS_DB_SECRET")
 	hostPort := "127.0.0.1:3306"
+	dbName := "books_v2"
 
 	db, err := sql.Open("mysql", fmt.Sprintf("%v:%v@tcp(%v)/%v", dbUser, dbPass, hostPort, dbName))
 	if err != nil {
