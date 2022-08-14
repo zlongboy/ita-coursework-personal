@@ -12,19 +12,19 @@ import (
 
 var client *http.Client
 
-func getBooks(c Client) {
+func getBooks(rc RequestConfig) {
 
 	// CONSTRUCT URI
-	URI, err := url.Parse(c.baseURL)
+	URI, err := url.Parse(rc.baseURL)
 	if err != nil {
 		fmt.Printf("Error parsing client url: %s \n", err.Error())
 	}
 
-	URI.Path += c.Path
+	URI.Path += rc.Path
 
 	params := url.Values{}
-	for i := 0; i < len(c.Params); i++ {
-		params.Add(c.Params[i], c.ParamVals[i])
+	for i := 0; i < len(rc.Params); i++ {
+		params.Add(rc.Params[i], rc.ParamVals[i])
 	}
 	URI.RawQuery = params.Encode()
 	// fmt.Printf("Print constructed URI: %s \n", URI)
@@ -55,14 +55,14 @@ func getBooks(c Client) {
 	// TODO: PARSE RESPONSE
 }
 
-func booksClient(searchTerm string) Client {
+func booksConfig(searchTerm string) RequestConfig {
 	client = &http.Client{Timeout: 10 * time.Second}
 
-	var bc Client
-	bc.baseURL = "https://www.googleapis.com/books/v1"
-	bc.Path = "/volumes"
-	bc.Params = []string{"projection", "q", "key"}
-	bc.ParamVals = []string{"lite", searchTerm, os.Getenv("GOOGLE_API_KEY")}
+	var rc RequestConfig
+	rc.baseURL = "https://www.googleapis.com/books/v1"
+	rc.Path = "/volumes"
+	rc.Params = []string{"projection", "q", "key"}
+	rc.ParamVals = []string{"lite", searchTerm, os.Getenv("GOOGLE_API_KEY")}
 
-	return bc
+	return rc
 }

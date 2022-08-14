@@ -1,12 +1,6 @@
 package main
 
-type Publisher struct {
-	ID            string `json:"id"`
-	PublisherName string `json:"publisher_name"`
-}
-
-// Request struct
-type Client struct {
+type RequestConfig struct {
 	baseURL   string
 	Path      string
 	APIKey    string
@@ -14,11 +8,12 @@ type Client struct {
 	ParamVals []string
 }
 
-// Response structs
 type Book struct {
 	ID          string  `json:"id"`
 	Title       string  `json:"title"`
 	Subtitle    string  `json:"subtitle"`
+	Author      string  `json:"author"`
+	Publisher   string  `json:"publisher"`
 	Desc        string  `json:"desc"`
 	PublishDate string  `json:"publish_date"`
 	Country     string  `json:"country"`
@@ -28,6 +23,9 @@ type Book struct {
 	PDF         bool    `json:"pdf"`
 }
 
-type Author struct {
-	Name string `json:"name"`
+// ** FOR TESTING ** //
+
+type Publisher struct {
+	ID            string `json:"id"`
+	PublisherName string `json:"publisher_name"`
 }
