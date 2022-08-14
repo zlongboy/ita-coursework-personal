@@ -23,6 +23,11 @@ type Book struct {
 	PDF         bool    `json:"pdf"`
 }
 
+const (
+	RespInvalidAuth   string = "Invalid API Key"
+	RespMissingAuthor string = "Missing required 'author' param"
+)
+
 // ** FOR TESTING ** //
 
 type Publisher struct {
