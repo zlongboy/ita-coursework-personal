@@ -2,6 +2,7 @@ package main
 
 import (
 	// "encoding/json"
+	"encoding/json"
 	"fmt"
 	"io/ioutil"
 	"net/http"
@@ -12,7 +13,7 @@ import (
 
 var client *http.Client
 
-func getBooks(rc RequestConfig) {
+func getBooks(rc RequestConfig) Book {
 
 	// CONSTRUCT URI
 	URI, err := url.Parse(rc.baseURL)
@@ -47,12 +48,13 @@ func getBooks(rc RequestConfig) {
 		fmt.Printf("Could not read response body: %s \n", err.Error())
 	}
 
-	fmt.Println(resp.Status)
-	fmt.Println(len(string(resBody)))
-
-	// return json.NewDecoder(resp.Body).Decode(&book)
+	fmt.Printf("Google Books response: %v \n", resp.Status)
+	// fmt.Println(len(string(resBody)))
+	var resObj Book
+	json.Unmarshal(resBody, &resObj)
 
 	// TODO: PARSE RESPONSE
+	return resObj
 }
 
 func booksConfig(searchTerm string) RequestConfig {

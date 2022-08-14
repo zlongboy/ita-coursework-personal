@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -38,6 +39,21 @@ func Test(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusOK)
+	// successJSON, err := json.MarshalIndent(getBooks(booksConfig(ap)), "", " ")
+	// if err != nil {
+	// 	log.Fatalf(err.Error())
+	// }
+	// w.Write(getBooks(booksConfig(ap)))
+	// w.Write(successJSON)
+
+	items := getBooks(booksConfig(ap)).Items
+
+	for i, b := range items {
+		if len(b.VolumeInfo.Authors) > 0 {
+			fmt.Printf("%v) %v \n", i, b.VolumeInfo.Authors[0])
+		}
+	}
+
 }
 
 func BadRequest(msg string) []byte {
