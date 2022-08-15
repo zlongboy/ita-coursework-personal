@@ -25,38 +25,38 @@ func Test(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
 	// OpenDB()
 
+	// GET QUERY PARAMS
 	ap := r.URL.Query().Get("author")
 	key := r.URL.Query().Get("key")
 
+	// HANDLE BAD REQUEST
 	if key != os.Getenv("TEST_API_KEY") {
 		w.WriteHeader(http.StatusForbidden)
-		w.Write(BadRequest(RespInvalidAuth))
+		w.Write(ResponseMsg(RespInvalidAuth))
 		return
 	} else if len(ap) < 1 {
 		w.WriteHeader(http.StatusBadRequest)
-		w.Write(BadRequest(RespMissingAuthor))
+		w.Write(ResponseMsg(RespMissingAuthor))
 		return
 	}
 
+	// HANDLE SUCCESSFUL REQUEST
 	w.WriteHeader(http.StatusOK)
-	// successJSON, err := json.MarshalIndent(getBooks(booksConfig(ap)), "", " ")
-	// if err != nil {
-	// 	log.Fatalf(err.Error())
-	// }
-	// w.Write(getBooks(booksConfig(ap)))
-	// w.Write(successJSON)
 
-	items := getBooks(booksConfig(ap)).Items
+	toSave := getBooks(booksConfig(ap))
 
-	for i, b := range items {
-		if len(b.VolumeInfo.Authors) > 0 {
-			fmt.Printf("%v) %v \n", i, b.VolumeInfo.Authors[0])
-		}
+	// TO DELETE - TEST BLOCK //
+	toPrint, err := json.MarshalIndent(toSave, "", " ")
+	if err != nil {
+		fmt.Printf("Error marshalling: %s \n", err.Error())
 	}
+	fmt.Printf("%s \n", toPrint)
+	// END TEST BLOCK //
 
+	w.Write(ResponseMsg(RespSuccess))
 }
 
-func BadRequest(msg string) []byte {
+func ResponseMsg(msg string) []byte {
 	resp := make(map[string]string)
 
 	resp["message"] = msg

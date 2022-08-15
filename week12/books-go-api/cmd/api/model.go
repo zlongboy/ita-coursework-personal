@@ -8,7 +8,7 @@ type RequestConfig struct {
 	ParamVals []string
 }
 
-type Book struct {
+type Books struct {
 	Kind       string `json:"kind,omitempty"`
 	TotalItems int    `json:"totalItems,omitempty"`
 	Items      []struct {
@@ -83,9 +83,25 @@ type Book struct {
 	} `json:"items,omitempty"`
 }
 
+type BookValues struct {
+	ID          string  `json:"id"`
+	Author      string  `json:"author"`
+	Publisher   string  `json:"publisher"`
+	Title       string  `json:"title"`
+	Subtitle    string  `json:"subtitle"`
+	Desc        string  `json:"desc"`
+	PublishDate string  `json:"publish_date"`
+	Country     string  `json:"country"`
+	Price       float32 `json:"price"`
+	ImageURL    string  `json:"image_url"`
+	PurchaseURL string  `json:"purchase_url"`
+	PDF         bool    `json:"pdf"`
+}
+
 const (
 	RespInvalidAuth   string = "Invalid API Key"
 	RespMissingAuthor string = "Missing required 'author' param"
+	RespSuccess       string = "Success"
 )
 
 // ** FOR TESTING ** //
@@ -93,4 +109,8 @@ const (
 type Publisher struct {
 	ID            string `json:"id"`
 	PublisherName string `json:"publisher_name"`
+}
+
+type AuthorMap struct {
+	Author map[string]int
 }

@@ -13,7 +13,7 @@ import (
 
 var client *http.Client
 
-func getBooks(rc RequestConfig) Book {
+func getBooks(rc RequestConfig) []BookValues {
 
 	// CONSTRUCT URI
 	URI, err := url.Parse(rc.baseURL)
@@ -28,7 +28,6 @@ func getBooks(rc RequestConfig) Book {
 		params.Add(rc.Params[i], rc.ParamVals[i])
 	}
 	URI.RawQuery = params.Encode()
-	// fmt.Printf("Print constructed URI: %s \n", URI)
 
 	// BUILD REQUEST
 	req, err := http.NewRequest("GET", URI.String(), nil)
@@ -42,19 +41,21 @@ func getBooks(rc RequestConfig) Book {
 
 	defer resp.Body.Close()
 
+	fmt.Printf("Google Books response: %v \n", resp.Status)
+
 	// PARSE RESPONSE
 	resBody, err := ioutil.ReadAll(resp.Body)
 	if err != nil {
 		fmt.Printf("Could not read response body: %s \n", err.Error())
 	}
 
-	fmt.Printf("Google Books response: %v \n", resp.Status)
-	// fmt.Println(len(string(resBody)))
-	var resObj Book
+	var resObj Books
 	json.Unmarshal(resBody, &resObj)
 
-	// TODO: PARSE RESPONSE
-	return resObj
+	// resultsTotal := resObj.TotalItems
+	fmt.Println(extractBooks(resObj))
+
+	return extractBooks(resObj)
 }
 
 func booksConfig(searchTerm string) RequestConfig {
@@ -67,4 +68,36 @@ func booksConfig(searchTerm string) RequestConfig {
 	rc.ParamVals = []string{"lite", searchTerm, os.Getenv("GOOGLE_API_KEY")}
 
 	return rc
+}
+
+func extractBooks(ob Books) []BookValues {
+	items := ob.Items
+	var bv []BookValues
+
+	for _, b := range items {
+		var s BookValues
+		s.ID = b.ID
+		s.Author = parseAuthor(b.VolumeInfo.Authors)
+		s.Publisher = b.VolumeInfo.Publisher
+		s.Title = b.VolumeInfo.Title
+		s.Subtitle = b.VolumeInfo.Subtitle
+		s.Desc = b.VolumeInfo.Description
+		s.PublishDate = b.VolumeInfo.PublishedDate
+		s.Country = b.SaleInfo.Country
+		s.Price = float32(b.SaleInfo.ListPrice.Amount)
+		s.ImageURL = b.VolumeInfo.ImageLinks.Thumbnail
+		s.PurchaseURL = b.SaleInfo.BuyLink
+		s.PDF = b.AccessInfo.Pdf.IsAvailable
+
+		bv = append(bv, s)
+	}
+	return bv
+}
+
+func parseAuthor(a []string) string {
+	if len(a) > 0 {
+		return a[0]
+	}
+
+	return "NO AUTHOR FOUND"
 }
