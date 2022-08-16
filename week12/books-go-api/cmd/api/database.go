@@ -9,7 +9,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-func OpenDB(bv []BookValues) {
+func OpenDB(bv []BookValues, autIDs, pubIDs map[string]string) {
 	dbUser := os.Getenv("BOOKS_DB_USER")
 	dbPass := os.Getenv("BOOKS_DB_SECRET")
 	hostPort := "127.0.0.1:3306"
@@ -28,18 +28,47 @@ func OpenDB(bv []BookValues) {
 		fmt.Println(err)
 	}
 
-	ra, err := booksResult.RowsAffected()
+	bra, err := booksResult.RowsAffected()
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Printf("Books added: %v \n", bra)
+
+	// AUTHORS QUERY
+	authResult, err := db.Exec(authorPublisherQuery(autIDs, "authors"))
 	if err != nil {
 		fmt.Println(err)
 	}
 
-	fmt.Printf("Books added: %v \n", ra)
+	ara, err := authResult.RowsAffected()
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Printf("Authors added: %v \n", ara)
 
-	// AUTHORS QUERY // Need map
-	// PUBLISHERS QUERY // Need map
+	// PUBLISHERS QUERY
+	pubResult, err := db.Exec(authorPublisherQuery(pubIDs, "publishers"))
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	pra, err := pubResult.RowsAffected()
+	if err != nil {
+		fmt.Println(err)
+	}
+	fmt.Printf("Publishers added: %v \n", pra)
 
 	// BOOKSAUTHORS QUERY
+	_, err := db.Exec(indexTableQuery(bv, autIDs, "booksauthors")) // TODO: Don't need to the result from db.Exec
+	if err != nil {
+		fmt.Println(err)
+	}
+
 	// BOOKSPUBLISHER QUERY
+	_, err := db.Exec(indexTableQuery(bv, pubIDs, "bookspublishers")) // TODO: Don't need to the result from db.Exec
+	if err != nil {
+		fmt.Println(err)
+	}
 }
 
 // QUERY BUILDERS
@@ -52,10 +81,8 @@ func booksQuery(bv []BookValues) string {
 		valueArgs = append(valueArgs, arg)
 		// TODO: Handle inserting different types for row.Price (float), row.PDF (bool)
 	}
-
 	bq := fmt.Sprintf("INSERT INTO books (id, title, subtitle, blurb, publish_date, country, image_url, purchase_url) VALUES %s", strings.Join(valueArgs, ","))
 	// fa := strings.Join(valueArgs, ",")
-
 	return bq
 }
 
@@ -71,32 +98,26 @@ func indexTableQuery(bv []BookValues, m map[string]string, table string) string 
 			tname = b.Publisher
 		}
 
-		arg := fmt.Sprintf("('%s','%s')", m[tname], tname)
+		arg := fmt.Sprintf("('%s','%s')", b.ID, m[tname])
 		valueArgs = append(valueArgs, arg)
 	}
-
 	iq := fmt.Sprintf("INSERT INTO %s VALUES %s", table, strings.Join(valueArgs, ","))
-
+	fmt.Println(iq)
 	return iq
 }
 
 func authorPublisherQuery(m map[string]string, table string) string {
-	// TODO: Construct authors, publishers query strings
+
 	var valueArgs []string
 	for k, id := range m {
 		arg := fmt.Sprintf("('%s','%s')", id, k)
 		valueArgs = append(valueArgs, arg)
 	}
 	apq := fmt.Sprintf("INSERT INTO %s VALUES %s", table, strings.Join(valueArgs, ","))
-
 	return apq
 }
 
 // UTILS
 func escapeSQL(t string) string {
 	return strings.Replace(t, "'", "''", -1)
-}
-
-func getID(m map[string]string, s string) string {
-	return m[s]
 }

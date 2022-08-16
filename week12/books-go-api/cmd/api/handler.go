@@ -43,10 +43,7 @@ func Test(w http.ResponseWriter, r *http.Request) {
 
 	toSave := getBooks(booksConfig(ap)) // Google books request
 
-	// OpenDB(toSave) // Run database queries
-
-	getAuthors(toSave)
-	getPublishers(toSave)
+	OpenDB(toSave, getAuthors(toSave), getPublishers(toSave)) // Run database queries
 
 	w.Write(ResponseMsg(RespSuccess)) // TODO: Replace with SuccessMsg when values are available
 }
