@@ -16,7 +16,7 @@ var client *http.Client
 func getBooks(rc RequestConfig) []BookValues {
 
 	// CONSTRUCT URI
-	URI, err := url.Parse(rc.baseURL)
+	URI, err := url.Parse(rc.BaseURL)
 	if err != nil {
 		fmt.Printf("Error parsing client url: %s \n", err.Error())
 	}
@@ -53,7 +53,7 @@ func getBooks(rc RequestConfig) []BookValues {
 	json.Unmarshal(resBody, &resObj)
 
 	// resultsTotal := resObj.TotalItems
-	fmt.Println(extractBooks(resObj))
+	// mt.Println(extractBooks(resObj))
 
 	return extractBooks(resObj)
 }
@@ -62,7 +62,7 @@ func booksConfig(searchTerm string) RequestConfig {
 	client = &http.Client{Timeout: 10 * time.Second}
 
 	var rc RequestConfig
-	rc.baseURL = "https://www.googleapis.com/books/v1"
+	rc.BaseURL = "https://www.googleapis.com/books/v1"
 	rc.Path = "/volumes"
 	rc.Params = []string{"projection", "q", "key"}
 	rc.ParamVals = []string{"lite", searchTerm, os.Getenv("GOOGLE_API_KEY")}

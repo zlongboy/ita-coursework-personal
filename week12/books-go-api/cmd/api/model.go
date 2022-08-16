@@ -1,7 +1,19 @@
 package main
 
+const (
+	RespInvalidAuth   string = "Invalid API Key"
+	RespMissingAuthor string = "Missing required 'author' param"
+	RespSuccess       string = "Success"
+)
+
+type Success struct {
+	Books      int
+	Authors    int
+	Publishers int
+}
+
 type RequestConfig struct {
-	baseURL   string
+	BaseURL   string
 	Path      string
 	APIKey    string
 	Params    []string
@@ -98,19 +110,24 @@ type BookValues struct {
 	PDF         bool    `json:"pdf"`
 }
 
-const (
-	RespInvalidAuth   string = "Invalid API Key"
-	RespMissingAuthor string = "Missing required 'author' param"
-	RespSuccess       string = "Success"
-)
+type JoinBook struct {
+	BookID      string
+	AuthorID    string
+	PublisherID string
+}
+
+type AuthorMap struct {
+	Authors map[string]int
+}
+
+type PublisherMap struct {
+	Publishers map[string]int
+}
 
 // ** FOR TESTING ** //
-
 type Publisher struct {
 	ID            string `json:"id"`
 	PublisherName string `json:"publisher_name"`
 }
 
-type AuthorMap struct {
-	Author map[string]int
-}
+// END TESTING BLOCK //

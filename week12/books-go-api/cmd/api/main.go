@@ -27,7 +27,7 @@ func router() http.Handler {
 	r := chi.NewRouter()
 
 	r.Get("/health", Health)
-	r.Post("/admin/add", AddAuthor)
+	r.Post("/admin/add", AddBooks)
 	r.Get("/", Test)
 
 	return r

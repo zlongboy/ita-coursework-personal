@@ -2,28 +2,26 @@ package main
 
 import (
 	"encoding/json"
-	"fmt"
 	"log"
 	"net/http"
 	"os"
+	"strconv"
+
+	"github.com/google/uuid"
 )
 
 func Health(w http.ResponseWriter, r *http.Request) {
 	w.Write([]byte("SERVER IS RUNNING"))
 }
 
-func AddAuthor(w http.ResponseWriter, r *http.Request) {
+func AddBooks(w http.ResponseWriter, r *http.Request) {
 
-	// Pass in to booksClient(searchTerm)
-	// Pass into getBooks()
-	// ResponseParsed =
 	// Make 3 channels: 1 to get and run authors info queries/publishers/books
-	// Join up --> send response (query all records with that author id, return as JSON object)
+	// Join up --> send response successMsg()
 }
 
 func Test(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	// OpenDB()
 
 	// GET QUERY PARAMS
 	ap := r.URL.Query().Get("author")
@@ -43,19 +41,60 @@ func Test(w http.ResponseWriter, r *http.Request) {
 	// HANDLE SUCCESSFUL REQUEST
 	w.WriteHeader(http.StatusOK)
 
-	toSave := getBooks(booksConfig(ap))
+	toSave := getBooks(booksConfig(ap)) // Google books request
 
-	// TO DELETE - TEST BLOCK //
-	toPrint, err := json.MarshalIndent(toSave, "", " ")
-	if err != nil {
-		fmt.Printf("Error marshalling: %s \n", err.Error())
-	}
-	fmt.Printf("%s \n", toPrint)
-	// END TEST BLOCK //
+	// OpenDB(toSave) // Run database queries
 
-	w.Write(ResponseMsg(RespSuccess))
+	getAuthors(toSave)
+	getPublishers(toSave)
+
+	w.Write(ResponseMsg(RespSuccess)) // TODO: Replace with SuccessMsg when values are available
 }
 
+// DECONSTRUCTING BOOKVALUES
+func getAuthors(bv []BookValues) map[string]string {
+	var as []string
+
+	for _, b := range bv {
+		as = append(as, b.Author)
+	}
+
+	authorIds := make(map[string]string)
+	for _, ua := range unique(as) {
+		aid := uuid.New().String()
+		authorIds[ua] = aid
+	}
+
+	// var ajs []JoinBook
+	// for _, b := range bv {
+	// 	var jb JoinBook
+	// 	jb.BookID = b.ID
+
+	// }
+
+	// fmt.Println(authorIds)
+	return authorIds
+}
+
+func getPublishers(bv []BookValues) map[string]string { // TODO: Refactor, combine with getAuthors
+	var as []string
+
+	for _, b := range bv {
+		as = append(as, b.Publisher)
+	}
+
+	publisherIds := make(map[string]string)
+	for _, ua := range unique(as) {
+		aid := uuid.New().String()
+		publisherIds[ua] = aid
+	}
+
+	// fmt.Println(publisherIds)
+	return publisherIds
+
+}
+
+// RESPONSE MESSAGE BUILDERS
 func ResponseMsg(msg string) []byte {
 	resp := make(map[string]string)
 
@@ -66,4 +105,35 @@ func ResponseMsg(msg string) []byte {
 	}
 
 	return respJSON
+}
+
+func SuccessMsg(msg string, b, a, p int) []byte {
+	resp := make(map[string]string)
+
+	resp["message"] = msg
+	resp["Books added"] = strconv.Itoa(b)
+	resp["Authors added"] = strconv.Itoa(a)
+	resp["Publishers added"] = strconv.Itoa(p)
+	respJSON, err := json.Marshal(resp)
+	if err != nil {
+		log.Printf("Error marshalling %v to JSON", resp)
+	}
+
+	return respJSON
+
+}
+
+// UTILS
+func unique(ss []string) []string {
+	m := make(map[string]bool)
+	var u []string
+
+	for _, v := range ss {
+		if _, ok := m[v]; !ok {
+			m[v] = true
+			u = append(u, v)
+		}
+	}
+
+	return u
 }
