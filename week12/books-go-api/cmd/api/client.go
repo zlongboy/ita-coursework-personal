@@ -1,7 +1,6 @@
 package main
 
 import (
-	// "encoding/json"
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
@@ -30,7 +29,7 @@ func getBooks(rc RequestConfig) []BookValues {
 	URI.RawQuery = params.Encode()
 
 	// BUILD REQUEST
-	req, err := http.NewRequest("GET", URI.String(), nil)
+	req, err := http.NewRequest(rc.Method, URI.String(), nil)
 	req.Header.Add("Content-Type", "application/json")
 
 	// SEND REQUEST
@@ -41,7 +40,7 @@ func getBooks(rc RequestConfig) []BookValues {
 
 	defer resp.Body.Close()
 
-	fmt.Printf("Google Books response: %v \n", resp.Status)
+	fmt.Printf("Google Books API: %v \n", resp.Status)
 
 	// PARSE RESPONSE
 	resBody, err := ioutil.ReadAll(resp.Body)
@@ -52,16 +51,15 @@ func getBooks(rc RequestConfig) []BookValues {
 	var resObj Books
 	json.Unmarshal(resBody, &resObj)
 
-	// resultsTotal := resObj.TotalItems
-	// mt.Println(extractBooks(resObj))
-
 	return extractBooks(resObj)
 }
 
+// HELPER FUNCTIONS
 func booksConfig(searchTerm string) RequestConfig {
 	client = &http.Client{Timeout: 10 * time.Second}
 
 	var rc RequestConfig
+	rc.Method = "GET"
 	rc.BaseURL = "https://www.googleapis.com/books/v1"
 	rc.Path = "/volumes"
 	rc.Params = []string{"projection", "q", "key"}

@@ -1,7 +1,5 @@
 package main
 
-// 	nodemon --exec 'go' run cmd/main.go
-
 import (
 	"fmt"
 	"log"
@@ -28,7 +26,6 @@ func router() http.Handler {
 
 	r.Get("/health", Health)
 	r.Post("/admin/add", AddBooks)
-	r.Get("/", Test)
 
 	return r
 }

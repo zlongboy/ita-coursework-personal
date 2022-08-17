@@ -9,7 +9,7 @@ import (
 	_ "github.com/go-sql-driver/mysql"
 )
 
-func OpenDB(bv []BookValues, autIDs, pubIDs map[string]string) {
+func OpenDB(bv []BookValues, autIDs, pubIDs map[string]string) Success {
 	dbUser := os.Getenv("BOOKS_DB_USER")
 	dbPass := os.Getenv("BOOKS_DB_SECRET")
 	hostPort := "127.0.0.1:3306"
@@ -25,50 +25,52 @@ func OpenDB(bv []BookValues, autIDs, pubIDs map[string]string) {
 	// BOOKS QUERY
 	booksResult, err := db.Exec(booksQuery(bv))
 	if err != nil {
-		fmt.Println(err)
+		fmt.Printf("Error executing query: %v /n", err.Error())
 	}
 
 	bra, err := booksResult.RowsAffected()
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Printf("Books added: %v \n", bra)
 
 	// AUTHORS QUERY
 	authResult, err := db.Exec(authorPublisherQuery(autIDs, "authors"))
 	if err != nil {
-		fmt.Println(err)
+		fmt.Printf("Error executing query: %v /n", err.Error())
 	}
 
 	ara, err := authResult.RowsAffected()
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Printf("Authors added: %v \n", ara)
 
 	// PUBLISHERS QUERY
 	pubResult, err := db.Exec(authorPublisherQuery(pubIDs, "publishers"))
 	if err != nil {
-		fmt.Println(err)
+		fmt.Printf("Error executing query: %v /n", err.Error())
 	}
 
 	pra, err := pubResult.RowsAffected()
 	if err != nil {
 		fmt.Println(err)
 	}
-	fmt.Printf("Publishers added: %v \n", pra)
 
 	// BOOKSAUTHORS QUERY
-	_, err := db.Exec(indexTableQuery(bv, autIDs, "booksauthors")) // TODO: Don't need to the result from db.Exec
-	if err != nil {
-		fmt.Println(err)
+	_, errBA := db.Exec(indexTableQuery(bv, autIDs, "booksauthors"))
+	if errBA != nil {
+		fmt.Printf("Error executing query: %v /n", errBA.Error())
 	}
 
 	// BOOKSPUBLISHER QUERY
-	_, err := db.Exec(indexTableQuery(bv, pubIDs, "bookspublishers")) // TODO: Don't need to the result from db.Exec
-	if err != nil {
-		fmt.Println(err)
+	_, errBP := db.Exec(indexTableQuery(bv, pubIDs, "bookspublishers"))
+	if errBP != nil {
+		fmt.Printf("Error executing query: %v /n", errBP.Error())
 	}
+
+	queryResults := Success{bra, ara, pra}
+	fmt.Println("Database queries complete")
+
+	return queryResults
 }
 
 // QUERY BUILDERS
@@ -86,7 +88,7 @@ func booksQuery(bv []BookValues) string {
 	return bq
 }
 
-func indexTableQuery(bv []BookValues, m map[string]string, table string) string { // Constructs booksauthors, bookspublishers query string
+func indexTableQuery(bv []BookValues, m map[string]string, table string) string { // Constructs booksauthors, bookspublishers query strings
 
 	var valueArgs []string
 	for _, b := range bv {
@@ -102,7 +104,7 @@ func indexTableQuery(bv []BookValues, m map[string]string, table string) string 
 		valueArgs = append(valueArgs, arg)
 	}
 	iq := fmt.Sprintf("INSERT INTO %s VALUES %s", table, strings.Join(valueArgs, ","))
-	fmt.Println(iq)
+
 	return iq
 }
 
@@ -114,6 +116,7 @@ func authorPublisherQuery(m map[string]string, table string) string {
 		valueArgs = append(valueArgs, arg)
 	}
 	apq := fmt.Sprintf("INSERT INTO %s VALUES %s", table, strings.Join(valueArgs, ","))
+
 	return apq
 }
 

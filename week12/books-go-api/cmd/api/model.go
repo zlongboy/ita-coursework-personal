@@ -7,12 +7,13 @@ const (
 )
 
 type Success struct {
-	Books      int
-	Authors    int
-	Publishers int
+	Books      int64
+	Authors    int64
+	Publishers int64
 }
 
 type RequestConfig struct {
+	Method    string
 	BaseURL   string
 	Path      string
 	APIKey    string
@@ -117,17 +118,9 @@ type JoinBook struct {
 }
 
 type AuthorMap struct {
-	Authors map[string]int
+	Authors map[string]int // TODO: Can we refactor into a single author/publisher ID map?
 }
 
 type PublisherMap struct {
 	Publishers map[string]int
 }
-
-// ** FOR TESTING ** //
-type Publisher struct {
-	ID            string `json:"id"`
-	PublisherName string `json:"publisher_name"`
-}
-
-// END TESTING BLOCK //

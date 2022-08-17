@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
 	"os"
@@ -11,20 +12,18 @@ import (
 )
 
 func Health(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("New health check request")
 	w.Write([]byte("SERVER IS RUNNING"))
 }
 
 func AddBooks(w http.ResponseWriter, r *http.Request) {
+	// TODO: Read array of authors and make chans to handle process for each one
 
-	// Make 3 channels: 1 to get and run authors info queries/publishers/books
-	// Join up --> send response successMsg()
-}
-
-func Test(w http.ResponseWriter, r *http.Request) {
+	fmt.Println("New add books request")
 	w.Header().Set("Content-Type", "application/json")
 
 	// GET QUERY PARAMS
-	ap := r.URL.Query().Get("author")
+	author := r.URL.Query().Get("author")
 	key := r.URL.Query().Get("key")
 
 	// HANDLE BAD REQUEST
@@ -32,7 +31,7 @@ func Test(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusForbidden)
 		w.Write(ResponseMsg(RespInvalidAuth))
 		return
-	} else if len(ap) < 1 {
+	} else if len(author) < 1 {
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write(ResponseMsg(RespMissingAuthor))
 		return
@@ -41,14 +40,15 @@ func Test(w http.ResponseWriter, r *http.Request) {
 	// HANDLE SUCCESSFUL REQUEST
 	w.WriteHeader(http.StatusOK)
 
-	toSave := getBooks(booksConfig(ap)) // Google books request
+	toSave := getBooks(booksConfig(author)) // Google books request
 
-	OpenDB(toSave, getAuthors(toSave), getPublishers(toSave)) // Run database queries
+	qResults := OpenDB(toSave, getAuthors(toSave), getPublishers(toSave)) // Run database queries
 
-	w.Write(ResponseMsg(RespSuccess)) // TODO: Replace with SuccessMsg when values are available
+	w.Write(SuccessMsg(RespSuccess, qResults))
+
 }
 
-// DECONSTRUCTING BOOKVALUES
+// HELPER FUNCTIONS: Deconstruct book values
 func getAuthors(bv []BookValues) map[string]string {
 	var as []string
 
@@ -62,18 +62,10 @@ func getAuthors(bv []BookValues) map[string]string {
 		authorIds[ua] = aid
 	}
 
-	// var ajs []JoinBook
-	// for _, b := range bv {
-	// 	var jb JoinBook
-	// 	jb.BookID = b.ID
-
-	// }
-
-	// fmt.Println(authorIds)
 	return authorIds
 }
 
-func getPublishers(bv []BookValues) map[string]string { // TODO: Refactor, combine with getAuthors
+func getPublishers(bv []BookValues) map[string]string { // TODO: Refactor, combine with getAuthors(), one function returns two maps
 	var as []string
 
 	for _, b := range bv {
@@ -86,7 +78,6 @@ func getPublishers(bv []BookValues) map[string]string { // TODO: Refactor, combi
 		publisherIds[ua] = aid
 	}
 
-	// fmt.Println(publisherIds)
 	return publisherIds
 
 }
@@ -104,13 +95,13 @@ func ResponseMsg(msg string) []byte {
 	return respJSON
 }
 
-func SuccessMsg(msg string, b, a, p int) []byte {
+func SuccessMsg(msg string, r Success) []byte {
 	resp := make(map[string]string)
 
-	resp["message"] = msg
-	resp["Books added"] = strconv.Itoa(b)
-	resp["Authors added"] = strconv.Itoa(a)
-	resp["Publishers added"] = strconv.Itoa(p)
+	resp["Message"] = msg
+	resp["Books added"] = strconv.Itoa(int(r.Books))
+	resp["Authors added"] = strconv.Itoa(int(r.Authors))
+	resp["Publishers added"] = strconv.Itoa(int(r.Publishers))
 	respJSON, err := json.Marshal(resp)
 	if err != nil {
 		log.Printf("Error marshalling %v to JSON", resp)
