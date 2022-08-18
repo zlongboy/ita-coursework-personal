@@ -42,14 +42,14 @@ func AddBooks(w http.ResponseWriter, r *http.Request) {
 
 	toSave := getBooks(booksConfig(author)) // Google books request
 
-	qResults := OpenDB(toSave, getAuthors(toSave), getPublishers(toSave)) // Run database queries
+	qResults := OpenDB(toSave, getAIDs(toSave), getPIDs(toSave)) // Run database queries
 
 	w.Write(SuccessMsg(RespSuccess, qResults))
 
 }
 
-// HELPER FUNCTIONS: Deconstruct book values
-func getAuthors(bv []BookValues) map[string]string {
+// HELPER FUNCTIONS: Deconstruct book values to create unique author/publisher ids
+func getAIDs(bv []BookValues) map[string]string {
 	var as []string
 
 	for _, b := range bv {
@@ -65,7 +65,7 @@ func getAuthors(bv []BookValues) map[string]string {
 	return authorIds
 }
 
-func getPublishers(bv []BookValues) map[string]string { // TODO: Refactor, combine with getAuthors(), one function returns two maps
+func getPIDs(bv []BookValues) map[string]string { // TODO: Refactor, combine with getAuthors(), one function returns two maps
 	var as []string
 
 	for _, b := range bv {
@@ -79,7 +79,6 @@ func getPublishers(bv []BookValues) map[string]string { // TODO: Refactor, combi
 	}
 
 	return publisherIds
-
 }
 
 // RESPONSE MESSAGE BUILDERS

@@ -116,11 +116,3 @@ type JoinBook struct {
 	AuthorID    string
 	PublisherID string
 }
-
-type AuthorMap struct {
-	Authors map[string]int // TODO: Can we refactor into a single author/publisher ID map?
-}
-
-type PublisherMap struct {
-	Publishers map[string]int
-}
