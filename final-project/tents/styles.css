@@ -109,13 +109,15 @@ input, textarea {
     outline: 3px solid var(--clr-primary-200);
     background-color: transparent;
 }
+.mt0 {
+    margin-top: 0;
+}
 
 
 /* homepage styles */
 /* nav stles */
 .nav__container {
     display: grid;
-    grid-template-rows: 1fr;
     grid-template-columns: repeat(3, auto);
     align-items: center;
     justify-content: space-between;
@@ -124,7 +126,7 @@ input, textarea {
 .logo {
     font-size: 2rem;
     font-weight: 700;
-    margin: 0.5rem;
+    margin: 1rem;
 }
 .nav__search {
     height: 2.2rem;
@@ -178,7 +180,7 @@ input, textarea {
 }
 .nav__hamburger {
     position: absolute;
-    top: 1rem;
+    top: 1.6rem;
     right: 1.5rem;
     display: none;
     flex-direction: column;
@@ -191,9 +193,6 @@ input, textarea {
     width: 100%;
     background-color: var(--clr-neutral-900);
     border-radius: 15px;
-}
-.nav-secondary {
-    border-bottom: 3px solid var(--clr-primary-200);
 }
 .nav-secondary div:last-child {
     grid-column-end: -1;
@@ -469,7 +468,7 @@ input, textarea {
     width: 100%;
     grid-column: 1 / -1;
     grid-row: 2 / 3;
-    background-color: var(--clr-primary-200);
+    /* background-color: var(--clr-primary-200); */
     margin-bottom: 2rem;
     display: flex;
     flex-direction: column;
