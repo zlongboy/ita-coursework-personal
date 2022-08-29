@@ -22,7 +22,7 @@
                 "Vestibule door converts to extra large shade awning for additional external, covered storage",
                 "Kelty is synonymous with quality in the outdoor community. Designed in Colorado, Kelty gear is built to last"
             ],
-            "keywords": ["family camping", "extra large", "6-person"]
+            "keywords": ["family camping", "extra large", "easy packing and transport"]
         },
         {
             "sku": "2",
@@ -41,8 +41,16 @@
             "floorArea": 58,
             "color": "Orange",           
             "score": 4,
-            "highlights": [],
-            "keywords": []
+            "highlights": [
+                "Easy-pitch construction creates vertical interior walls for extra head room", 
+                "Water-resistant fabrics and full-coverage fly vents to enjoy outdoor living in comfort", 
+                "Keep essentials neatly organized and within reach with numerous interior pockets"
+            ],
+            "keywords": [
+                "family camping", 
+                "spacious", 
+                "easy-pitch design"
+            ]
         },
         {
             "sku": "3",

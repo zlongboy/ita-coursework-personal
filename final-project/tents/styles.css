@@ -1,12 +1,14 @@
 /* global styles */
 :root {
     --clr-primary-100: #F5F6F5;
-    --clr-primary-200: aliceblue;
 
-    --clr-neutral-100: #FFF;
-    --clr-neutral-200: #999;
+    --clr-white: #FFF;
+
+    --clr-neutral-100: #999;
     --clr-neutral-300: #555;
     --clr-neutral-900: #222C2A;
+
+    --clr-accent-100: aliceblue;
 
     --clr-error-200: #FFF3F3;
     --clr-error-600: #D71919;
@@ -17,8 +19,8 @@
 *::before,
 *::after {
     box-sizing: border-box;
-    border: none;
-    outline: none;
+    border: 0;
+    outline: 0;
 }
 body,
 h1,
@@ -106,7 +108,7 @@ input, textarea {
     width: 5.5rem;
     height: 1.8rem;
     font-size: 0.7rem;
-    outline: 3px solid var(--clr-primary-200);
+    outline: 3px solid var(--clr-accent-100);
     background-color: transparent;
 }
 .mt0 {
@@ -259,7 +261,7 @@ input, textarea {
     height: 100%;
     grid-column: 2 / 5;
     grid-row: 1 / -1;
-    color: var(--clr-neutral-100);
+    color: var(--clr-white);
     z-index: 1;
     display: grid;
     grid-template-columns: repeat(3, 1fr);
@@ -284,7 +286,7 @@ input, textarea {
 .header__title span {
     font-size: 4rem;
     line-height: 1.8rem;
-    color: var(--clr-neutral-100);
+    color: var(--clr-white);
 }
 .title-thin {
     font-weight: 100;
@@ -334,9 +336,9 @@ input, textarea {
     width: 8rem;
     height: 2.4rem;
     font-size: 1rem;
-    color: var(--clr-neutral-100);
+    color: var(--clr-white);
     margin-top: 1.4rem;
-    border: 2px solid var(--clr-neutral-100);
+    border: 2px solid var(--clr-white);
     background-color: transparent;
 }
 @media (max-width: 800px) {
@@ -399,7 +401,7 @@ input, textarea {
     width: 20%;
     max-width: 110px;
     padding: 0.2rem;
-    background-color: var(--clr-primary-200);
+    background-color: var(--clr-accent-100);
     position: absolute;
     top: 0;
     z-index: 1;
@@ -468,7 +470,7 @@ input, textarea {
     width: 100%;
     grid-column: 1 / -1;
     grid-row: 2 / 3;
-    /* background-color: var(--clr-primary-200); */
+    /* background-color: var(--clr-accent-100); */
     margin-bottom: 2rem;
     display: flex;
     flex-direction: column;
@@ -643,8 +645,8 @@ input, textarea {
     padding: 0.5rem;
 }
 .form__cta {
-    background-color: var(--clr-primary-200);
-    outline: 1px solid var(--clr-neutral-200);
+    background-color: var(--clr-accent-100);
+    outline: 1px solid var(--clr-neutral-100);
     color: var(--clr-neutral-300);
     grid-column: 1 / -1;
     justify-self: center;
@@ -751,7 +753,7 @@ grid-template-rows: 4fr 1fr;
     width: 100%;
     height: 60px;
     background-color: var(--clr-neutral-300);
-    color: var(--clr-neutral-100);
+    color: var(--clr-white);
     font-family: inherit;
     font-size: 1rem;
     margin-bottom: 0.5rem;
@@ -768,7 +770,7 @@ grid-template-rows: 4fr 1fr;
     margin: 1rem 0;
 }
 .pdp-details__table tr {
-    border-bottom: 0.5px solid var(--clr-neutral-200);
+    border-bottom: 0.5px solid var(--clr-neutral-100);
 }
 .pdp-details__table td {
     padding: 0.5rem 0;
