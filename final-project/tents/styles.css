@@ -9,6 +9,7 @@
     --clr-neutral-900: #222C2A;
 
     --clr-accent-100: aliceblue;
+    --clr-secondary-600: #FFDC8C;
 
     --clr-error-200: #FFF3F3;
     --clr-error-600: #D71919;
@@ -101,6 +102,7 @@ input, textarea {
 .container {
     margin: 1rem;
     display: grid;
+    /* TODO: Solve container for contact page */
 }
 .section-header {
     grid-column: 1 / -1;
@@ -171,16 +173,15 @@ input, textarea {
     align-items: center;
 }
 .nav__links a {
-    padding-bottom: 5px;
+    padding-bottom: 0.25rem;
 }
 .nav__links a:not(.icon-link) {
     text-decoration: none;
     color: var(--clr-neutral-900);
-    font-weight: 300;
+    font-weight: 600;
 }
 .nav__links a:not(.icon-link):hover {
-    border-bottom: 1.5px solid;
-    font-weight: 400;
+    border-bottom: 1px solid;
 }
 .nav__hamburger {
     position: absolute;
@@ -197,6 +198,9 @@ input, textarea {
     width: 100%;
     background-color: var(--clr-neutral-900);
     border-radius: 15px;
+}
+.nav-secondary {
+    background-color: var(--clr-secondary-600);
 }
 .nav-secondary div:last-child {
     grid-column-end: -1;
@@ -511,10 +515,11 @@ input, textarea {
 }
 .results__container {
     display: flex;
-    margin-top: 2rem;
+    margin: 3rem 1rem;
+
 }
 .filters__container {
-    margin: 0 0.5rem;
+    margin: 0 1rem;
 }
 .filters__container h3 {
     margin: 0;
@@ -678,7 +683,7 @@ grid-template-columns: 3fr 2fr;
 grid-template-rows: repeat(2, auto);
 }
 .pdp-back__btn {
-margin: 0 1rem 1rem 0;
+margin: 1rem 0rem 1rem;
 display: flex;
 align-items: center;
 }
@@ -689,7 +694,7 @@ width: 12px;
 height: 12px;
 }
 .pdp-back__btn a {
-font-size: 0.8rem;
+font-size: 1rem;
 }
 .pdp-back__btn a:hover {
 text-decoration: underline;
@@ -744,11 +749,12 @@ grid-template-rows: 4fr 1fr;
     margin: 1rem 0;
 }
 .pdp-price span {
-    font-size: 1.8rem;
+    font-size: 1.4rem;
+    font-weight: 500;
 }
 .quantity__select {
     width: 60px;
-    height:30px;
+    height: 30px;
     align-self: flex-end;
 }
 .pdp-cart__cta {
